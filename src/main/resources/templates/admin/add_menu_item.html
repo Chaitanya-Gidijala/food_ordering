@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/admin_sidebar :: sidebar}"></div>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <div class="page-header">
+                    <h2 class="page-title" th:text="${menuItem.id == null ? 'Add New Food Item' : 'Edit Food Item'}">Add
+                        Food Item</h2>
+                </div>
+
+                <div class="form-container"
+                    style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); max-width: 700px;">
+                    <form th:action="@{/admin/menu-items/save}" th:object="${menuItem}" method="post">
+                        <input type="hidden" th:field="*{id}">
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Title <span style="color: var(--danger-color);">*</span></label>
+                                <input type="text" th:field="*{name}" class="form-control"
+                                    placeholder="Enter Food Item title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cuisine <span style="color: var(--danger-color);">*</span></label>
+                                <input type="text" th:field="*{cuisine}" class="form-control" placeholder="Cuisine type"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Category <span style="color: var(--danger-color);">*</span></label>
+                                <input type="text" th:field="*{category}" class="form-control"
+                                    placeholder="e.g. Fiction" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Price (₹) <span style="color: var(--danger-color);">*</span></label>
+                                <input type="number" step="0.01" th:field="*{price}" class="form-control"
+                                    placeholder="0.00" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Stock <span style="color: var(--danger-color);">*</span></label>
+                                <input type="number" th:field="*{stock}" class="form-control" placeholder="Qty"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="text" th:field="*{imageUrl}" class="form-control"
+                                placeholder="https://example.com/cover.jpg">
+                            <small style="color: var(--text-light);">Leave empty for default placeholder.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea th:field="*{description}" class="form-control" rows="4"
+                                placeholder="Food Item summary or details..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                            <a href="/admin/menu-items" class="btn-secondary">Cancel</a>
+                            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Food
+                                Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

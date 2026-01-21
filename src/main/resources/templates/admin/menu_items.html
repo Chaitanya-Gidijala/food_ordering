@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/admin_sidebar :: sidebar}"></div>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <div class="page-header">
+                    <h2 class="page-title">Manage menu-items</h2>
+                    <a href="/admin/menu-items/add" class="btn-primary"><i class="fas fa-plus"></i> Add New Food
+                        Item</a>
+                </div>
+
+                <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1.5rem;" th:text="${success}">
+                </div>
+                <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1.5rem;" th:text="${error}"></div>
+
+                <div
+                    style="background: white; border-radius: var(--radius); border: 1px solid var(--border-color); overflow: hidden;">
+                    <table class="table" style="margin:0; border: none; box-shadow: none;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Food Item Details</th>
+                                <th>Cuisine/Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="menuItem : ${menuItems}">
+                                <td th:text="${menuItem.id}" style="color: var(--text-light);">1</td>
+                                <td>
+                                    <div style="font-weight: 600; color: var(--text-color);" th:text="${menuItem.name}">
+                                        Title</div>
+                                </td>
+                                <td>
+                                    <div th:text="${menuItem.cuisine}">Author</div>
+                                    <small style="color: var(--text-light);"
+                                        th:text="${menuItem.category}">Category</small>
+                                </td>
+                                <td style="font-weight: 600; color: var(--primary-color);"
+                                    th:text="${'₹' + menuItem.price}">₹10.00</td>
+                                <td>
+                                    <span th:class="${menuItem.stock > 0 ? 'badge-success' : 'badge-danger'}"
+                                        style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #ecfdf5; color: var(--success-color);"
+                                        th:text="${menuItem.stock > 0 ? menuItem.stock + ' in stock' : 'Out of Stock'}">5</span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <a th:href="@{/admin/menu-items/edit/{id}(id=${menuItem.id})}"
+                                            class="btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a th:href="@{/admin/menu-items/delete/{id}(id=${menuItem.id})}"
+                                            class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;"
+                                            onclick="return confirm('Are you sure you want to delete this Food Item?');">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

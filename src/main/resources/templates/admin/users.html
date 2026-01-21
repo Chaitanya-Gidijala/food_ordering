@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/admin_sidebar :: sidebar}"></div>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <div class="page-header">
+                    <h2 class="page-title">Manage Users</h2>
+                </div>
+
+                <div
+                    style="background: white; border-radius: var(--radius); border: 1px solid var(--border-color); overflow: hidden;">
+                    <table class="table" style="margin:0; border: none; box-shadow: none;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Details</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.id}" style="color: var(--text-light);">1</td>
+                                <td>
+                                    <div style="font-weight: 600; color: var(--text-color); margin-bottom: 0.2rem;">
+                                        <i class="fas fa-user-circle"
+                                            style="color: var(--text-light); margin-right: 0.5rem;"></i>
+                                        <span th:text="${user.username}">admin</span>
+                                    </div>
+                                    <div style="color: var(--text-light); font-size: 0.85rem; margin-left: 1.6rem;"
+                                        th:text="${user.email}">admin@menu-itemstore.com</div>
+                                </td>
+                                <td>
+                                    <span th:text="${user.role}"
+                                        th:style="${user.role == 'ROLE_ADMIN' ? 'background: #eff6ff; color: var(--primary-color); padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.75rem;' : 'background: #f3f4f6; color: var(--text-color); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;'}">ROLE_ADMIN</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" class="btn-danger"
+                                        style="padding: 0.3rem 0.6rem; font-size: 0.8rem;"
+                                        onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i>
+                                        Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

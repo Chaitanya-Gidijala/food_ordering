@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="container" style="margin-top: 3rem;">
+            <div
+                style="background: var(--card-bg); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow-md); display: flex; gap: 3rem; flex-wrap: wrap; border: 1px solid var(--border-color);">
+
+                <div
+                    style="flex: 1; min-width: 300px; display: flex; justify-content: center; align-items: flex-start; background: #fff;">
+                    <img th:src="${menuItem.imageUrl != null && menuItem.imageUrl != '' ? menuItem.imageUrl : 'https://via.placeholder.com/400x600?text=No+Cover'}"
+                        alt="Food Item Cover"
+                        style="max-width: 100%; max-height: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                </div>
+
+                <div style="flex: 2; display: flex; flex-direction: column;">
+                    <span class="food-item-author"
+                        style="font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light);"
+                        th:text="${menuItem.category}">Category</span>
+                    <h1 th:text="${menuItem.name}"
+                        style="font-size: 2.2rem; margin: 0.5rem 0 0.5rem 0; color: var(--primary-color);">Food Item
+                        Title
+                    </h1>
+                    <h3 th:text="${'by ' + menuItem.cuisine}"
+                        style="color: #666; font-weight: 500; font-size: 1.2rem; margin-top: 0;">Author Name</h3>
+
+                    <div
+                        style="margin: 1.5rem 0; padding: 1.5rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee;">
+                        <p class="food-item-price" style="font-size: 2.5rem; margin: 0;"
+                            th:text="${'₹' + menuItem.price}">
+                            ₹25.00</p>
+                    </div>
+
+                    <h4 style="margin-bottom: 0.5rem;">Description</h4>
+                    <p style="line-height: 1.8; color: #555; margin-bottom: 2rem;" th:text="${menuItem.description}">
+                        Food Item description goes here...
+                    </p>
+
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: auto;">
+                        <form th:action="@{/cart/add}" method="post"
+                            style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="hidden" name="menuItemId" th:value="${menuItem.id}">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <label style="font-weight: 600;">Qty:</label>
+                                <input type="number" name="quantity" value="1" min="1" max="10" class="form-control"
+                                    style="width: 80px; text-align: center;">
+                            </div>
+                            <button type="submit" class="btn-primary"
+                                style="padding: 0.8rem 2rem; font-size: 1.1rem;"><i class="fas fa-shopping-cart"></i>
+                                Add to Cart</button>
+                        </form>
+                        <span th:if="${menuItem.stock > 0}"
+                            style="color: #28a745; font-weight: 600; background: #e6f9e9; padding: 0.5rem 1rem; border-radius: 4px;"><i
+                                class="fas fa-check-circle"></i> In Stock</span>
+                        <span th:unless="${menuItem.stock > 0}"
+                            style="color: #dc3545; font-weight: 600; background: #fde8e8; padding: 0.5rem 1rem; border-radius: 4px;"><i
+                                class="fas fa-times-circle"></i> Out of Stock</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

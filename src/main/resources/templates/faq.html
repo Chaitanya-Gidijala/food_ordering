@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+    <title>FAQ - FoodHub</title>
+    <style>
+        .faq-item {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.1rem;
+            background: white;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: var(--primary);
+        }
+
+        .faq-item.active .faq-question {
+            background: #f8f9fa;
+            color: var(--primary);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1.5rem;
+            color: #555;
+            line-height: 1.6;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            /* Allow enough space for content */
+            padding-bottom: 1.5rem;
+            padding-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <!-- Hero for FAQ -->
+        <section class="hero"
+            style="padding: 4rem 0; background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(29, 53, 87, 0.95)), url('https://images.unsplash.com/photo-1556910103-1c02745a30bf?auto=format&fit=crop&w=1920&q=80');">
+            <div class="container">
+                <h1
+                    style="color: white; font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                    Frequently Asked Questions</h1>
+                <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Have questions? We're here to help you.</p>
+            </div>
+        </section>
+
+        <!-- FAQ Content -->
+        <div class="container" style="max-width: 800px; padding: 4rem 1.5rem 6rem;">
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    How do I track my order?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Once your order is shipped, you will receive an email confirmation containing your live tracking
+                        link. You can also log in to your account and navigate to the <strong>My Orders</strong> section
+                        to view real-time courier updates.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    What is your return/refund policy?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We handle refunds on a case-by-case basis. If your food arrives damaged, incorrect, or
+                        drastically late, please contact support within 1 hour of delivery for a full refund or credit.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Do you offer contactless delivery?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, absolutely. You can select "Contactless Delivery" at checkout. Our driver will leave your
+                        order at your doorstep and notify you when it has been delivered.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Can I cancel or modify my order?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We process orders immediately to ensure freshness. You can modify or cancel your order within
+                        <strong>5 minutes</strong> of placing it. After that, the kitchen has likely started preparing
+                        your food.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    What payment methods do you accept?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We accept all major credit and debit cards (Visa, MasterCard, Amex), PayPal, and various digital
+                        wallets. All transactions are securely encrypted.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

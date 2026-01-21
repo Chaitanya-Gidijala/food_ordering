@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="container" style="max-width: 800px;">
+            <div
+                style="background: white; padding: 3rem; border-radius: var(--radius); box-shadow: var(--shadow-md); border: 1px solid var(--border-color); text-align: center;">
+
+                <div
+                    style="width: 80px; height: 80px; background: #ecfdf5; color: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem;">
+                    <i class="fas fa-check"></i>
+                </div>
+
+                <h2 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-color);">Order Placed Successfully!
+                </h2>
+                <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 2rem;">Thank you for your
+                    purchase. Your order number is <strong th:text="${'#' + order.id}">#123</strong>.</p>
+
+                <div
+                    style="background: #f9fafb; border-radius: var(--radius); padding: 1.5rem; text-align: left; margin-bottom: 2rem;">
+                    <h3
+                        style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; margin-bottom: 1rem; font-size: 1.25rem;">
+                        Order Details</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4
+                                style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px;">
+                                Shipping Address</h4>
+                            <p style="margin-top: 0.5rem; white-space: pre-wrap;" th:text="${order.shippingAddress}">
+                                Address...</p>
+                        </div>
+                        <div>
+                            <h4
+                                style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px;">
+                                Payment & Total</h4>
+                            <p style="margin-top: 0.5rem; font-weight: 500;" th:text="${order.description}">Credit Card
+                            </p>
+                            <p style="margin-top: 0.25rem; font-size: 1.25rem; font-weight: 700; color: var(--text-color);"
+                                th:text="${'₹' + order.totalAmount}">₹0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="/" class="btn-primary" style="padding: 0.8rem 2rem; font-size: 1.1rem;">
+                        <i class="fas fa-arrow-right"></i> Continue Shopping
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

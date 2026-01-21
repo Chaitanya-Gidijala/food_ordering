@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+    <title>My Profile - FoodHub</title>
+    <style>
+        .profile-sidebar {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+            color: white;
+            font-size: 3.5rem;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-role {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .order-header {
+            padding: 1.2rem 1.5rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .order-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-left: 0.8rem;
+        }
+
+        .order-status {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            color: var(--warning);
+        }
+
+        .status-completed {
+            color: var(--success);
+        }
+
+        .status-cancelled {
+            color: var(--danger);
+        }
+
+        .order-body {
+            padding: 1.5rem;
+        }
+
+        .order-detail-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            color: #555;
+            align-items: flex-start;
+        }
+
+        .order-detail-row i {
+            color: var(--primary);
+            width: 20px;
+            margin-top: 4px;
+        }
+
+        .order-items-list {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .order-item-name {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .order-item-price {
+            color: #6c757d;
+        }
+
+        .order-footer {
+            padding: 1rem 1.5rem;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            text-align: right;
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .order-total {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <!-- Profile Hero -->
+        <section class="hero" style="padding: 6rem 0 8rem; margin-bottom: -4rem;">
+            <div class="container">
+                <h1 style="color: white; font-size: 2.5rem; margin-bottom: 0.5rem;">My Profile</h1>
+                <p style="color: rgba(255,255,255,0.8);">Manage your account and view order history</p>
+            </div>
+        </section>
+
+        <div class="container" style="padding-bottom: 5rem;">
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2.5rem; align-items: start;">
+
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2 class="profile-name" th:text="${user.username}">Username</h2>
+                    <p class="profile-email" th:text="${user.email}">user@example.com</p>
+                    <span class="profile-role" th:text="${user.role}">USER</span>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn-danger" style="width: 100%; justify-content: center;">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="profile-content">
+                    <h3
+                        style="font-size: 1.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+                        <i class="fas fa-history" style="color: var(--primary);"></i> Order History
+                    </h3>
+
+                    <!-- Empty State -->
+                    <div th:if="${orders.empty}" class="empty-state">
+                        <i class="fas fa-shopping-basket"></i>
+                        <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">No orders yet</h3>
+                        <p style="color: #6c757d; margin-bottom: 2rem;">Looks like you haven't ordered anything yet.</p>
+                        <a href="/" class="btn-primary">Browse Menu</a>
+                    </div>
+
+                    <!-- Order List -->
+                    <div th:each="order : ${orders}" class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <span class="order-id" th:text="${'Order #' + order.id}">Order #123</span>
+                                <span class="order-date"
+                                    th:text="${#temporals.format(order.orderDate, 'dd MMM yyyy, hh:mm a')}">Date</span>
+                            </div>
+                            <span class="order-status" th:text="${order.status}"
+                                th:classappend="${'status-' + #strings.toLowerCase(order.status)}">PENDING</span>
+                        </div>
+
+                        <div class="order-body">
+                            <div class="order-detail-row">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong
+                                        style="display: block; color: var(--text-dark); margin-bottom: 0.2rem;">Shipping
+                                        Address</strong>
+                                    <span
+                                        th:text="${order.shippingAddress != null ? order.shippingAddress : 'Not provided'}">Address</span>
+                                </div>
+                            </div>
+
+                            <div th:if="${order.description}" class="order-detail-row">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong
+                                        style="display: block; color: var(--text-dark); margin-bottom: 0.2rem;">Notes</strong>
+                                    <span th:text="${order.description}">Notes</span>
+                                </div>
+                            </div>
+
+                            <div class="order-items-list">
+                                <div th:each="item : ${order.orderItems}" class="order-item">
+                                    <span class="order-item-name">
+                                        <span style="color: var(--primary); font-weight: 700; margin-right: 0.5rem;"
+                                            th:text="${item.quantity + 'x'}">1x</span>
+                                        <span th:text="${item.menuItem.name}">Item Name</span>
+                                    </span>
+                                    <span class="order-item-price"
+                                        th:text="${'₹' + (item.price * item.quantity)}">₹100</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <span style="color: #6c757d; margin-right: 1rem;">Total Amount:</span>
+                            <span class="order-total" th:text="${'₹' + order.totalAmount}">₹100</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

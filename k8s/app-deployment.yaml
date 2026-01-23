@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-ordering-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-ordering-app
+  template:
+    metadata:
+      labels:
+        app: food-ordering-app
+    spec:
+      containers:
+      - name: food-ordering-app
+        image: chaitanyagidijala123/food-ordering-app:latest
+        ports:
+        - containerPort: 8086
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql-service:3306/foododeringplatform?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: root
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: update

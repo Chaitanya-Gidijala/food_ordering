@@ -1,0 +1,9 @@
+Developer -> github -> jenkins -> trigger pipelie
+
+docker image:
+
+docker username;
+docker image name;
+docker image tag;
+
+docker credetials;

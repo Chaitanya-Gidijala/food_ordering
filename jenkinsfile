@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_USERNAME = 'chaitanyagidijala123'
+        IMAGE_NAME = 'food-ordering-app'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Chaitanya-Gidijala/food_ordering.git'
+            }
+        }
+        stage('Clean') {
+            steps {
+                bat 'mvn clean'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+        stage('Package') {
+            steps {
+                bat 'mvn package -DskipTests'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                bat """
+                docker build -t %DOCKER_USERNAME%/%IMAGE_NAME%:%IMAGE_TAG% .
+                """
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'DockerHubCred',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat """
+                    docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                    docker push %DOCKER_USERNAME%/%IMAGE_NAME%:%IMAGE_TAG%
+                    """
+                }
+            }
+        }
+        stage('Deploy to K8s') {
+            steps {
+                bat """
+                kubectl apply -f k8s/
+                echo "Successfully deployed to Kubernetes cluster"
+                """
+            }
+        }
+        stage('Monitor Pods') {
+            steps {
+                bat "kubectl get pods"
+            }
+        }
+        stage('Monitor Deployments') {
+            steps {
+                bat "kubectl get deployments"
+            }
+        }
+    }
+}
